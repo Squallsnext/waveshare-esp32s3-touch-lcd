@@ -1,17 +1,43 @@
-# sdkconfig.defaults - Waveshare ESP32-S3 Touch LCD configuration
-# Verified working with ESP-IDF v5.3
+# sdkconfig.defaults - Waveshare ESP32-S3 Touch LCD 4.3"
+# Proven config from PlatformIO project + ESP-IDF 5.3
 
 # --- Target SoC ---
 CONFIG_IDF_TARGET="esp32s3"
+
+# --- Flash Memory (QIO mode for 16MB) ---
+CONFIG_ESPTOOLPY_FLASHMODE_QIO=y
+CONFIG_ESPTOOLPY_FLASHFREQ_80M=y
+CONFIG_ESPTOOLPY_FLASH_SIZE="16MB"
+
+# --- PSRAM / SPIRAM (OPI mode, 8MB) ---
+CONFIG_SPIRAM=y
+CONFIG_SPIRAM_MODE_OCT=y
+CONFIG_SPIRAM_SPEED_80M=y
+CONFIG_SPIRAM_OCCUPY_SPI0_PIN=y
+CONFIG_SPIRAM_CACHE_WORKAROUND=y
+
+# --- Heap & PSRAM malloc ---
+CONFIG_SPIRAM_MALLOC_ALWAYSINTERNAL=16384
+
+# --- CPU Frequency (240 MHz) ---
+CONFIG_ESP32S3_DEFAULT_CPU_FREQ_MHZ=240
 
 # --- USB CDC Serial Console ---
 CONFIG_ESP_CONSOLE_USB_CDC=y
 CONFIG_ESP_CONSOLE_UART_NONE=y
 
-# --- CPU Frequency ---
-CONFIG_ESP32S3_DEFAULT_CPU_FREQ_MHZ=240
+# --- FreeRTOS ---
+CONFIG_FREERTOS_HZ=1000
 
-# --- PSRAM / LVGL (configure via menuconfig if needed) ---
-# Run `idf.py menuconfig` to enable PSRAM and LVGL options
-# - Enable PSRAM under: Component Config → ESP PSRAM
-# - Enable LVGL under: Component Config → LVGL (after adding managed dependency)
+# --- LVGL ---
+CONFIG_LV_CONF_MINIMAL=n
+
+# --- Logging ---
+CONFIG_LOG_DEFAULT_LEVEL_INFO=y
+CONFIG_LOG_DEFAULT_LEVEL=3
+
+# --- Power Management ---
+CONFIG_PM_ENABLE=y
+
+# --- Performance ---
+CONFIG_COMPILER_OPTIMIZATION_DEFAULT=y
