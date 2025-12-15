@@ -1,0 +1,18 @@
+idf_component_register(
+    SRCS
+        "app_main.c"
+        "board_init.c"
+    INCLUDE_DIRS
+        "."
+    REQUIRES
+        esp_lvgl_port
+        lvgl
+        esp_lcd_touch_gt911
+        esp32_io_expander
+        esp_lcd_rgb_panel
+        esp_timer
+        driver
+        freertos
+        log
+        heap
+)
