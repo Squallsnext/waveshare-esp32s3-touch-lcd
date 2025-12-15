@@ -60,20 +60,61 @@ idf.py monitor
 idf.py build flash monitor
 ```
 
-### Expected Boot Output
+### Expected Boot Output (Without LVGL)
 ```
 I (00) boot: ESP-IDF v5.3.1 on ESP32-S3
 ...
+I (xxx) boot_init: Waveshare ESP32-S3 Touch LCD 4.3" (800x480 RGB565)
 I (xxx) board_init: I2C Scanner on GPIO8/9 @ 400kHz
 I (xxx) board_init: Found device at 0x5D (GT911 Touch)
 I (xxx) board_init: Found device at 0x20 (CH422G IO Expander)
-I (xxx) board_init: PSRAM OK - free heap: 4456KB
-I (xxx) lcd_init: Initializing RGB LCD (800x480, 16-bit RGB565)
-I (xxx) lcd_init: LCD init complete
-I (xxx) touch_init: GT911 touch init complete
-I (xxx) backlight_init: CH422G backlight enabled (EXIO2)
-I (xxx) lvgl_init: LVGL initialized, display FPS: 60Hz
-I (xxx) lvgl_ui: Demo UI ready - press button on LCD
+I (xxx) app_main: Free heap: XXXX KB, Free PSRAM: XXXX KB
+I (xxx) app_main: Next steps: Add LVGL, design UI in EEZ Studio, export and build!
+```
+
+## Adding LVGL Graphics
+
+Once the core project builds successfully, add LVGL 9.4 support:
+
+### Step 1: Add Managed Components
+```bash
+. ~/esp/esp-idf/export.sh
+cd /path/to/waveshare-esp32s3-touch-lcd
+
+# Add LVGL and esp_lvgl_port
+idf.py add-dependency "lvgl/lvgl>=9.4"
+idf.py add-dependency "espressif/esp_lvgl_port>=2.0"
+```
+
+### Step 2: Update CMakeLists.txt
+Edit `main/CMakeLists.txt` and uncomment/add LVGL dependencies:
+```cmake
+REQUIRES
+    driver
+    esp_timer
+    freertos
+    log
+    eez_ui
+    lvgl              # Add these
+    esp_lvgl_port     # two lines
+```
+
+### Step 3: Design UI in EEZ Studio
+1. Download [EEZ Studio](https://www.envisionicz.com/)
+2. Create new project: 800x480 @ 16-bit RGB565
+3. Design your UI with widgets, styles, and animations
+4. Export as **"C/C++ Project"** → outputs to `ui/` directory
+5. The build automatically includes exported files via glob pattern in `main/CMakeLists.txt`
+
+### Step 4: Integrate Display & Touch
+Uncomment LCD and touch initialization in `main/app_main.c` and implement:
+- RGB LCD panel via `esp_lcd_rgb_panel` API
+- GT911 touch via `esp_lcd_touch_gt911` driver
+- LVGL integration via `esp_lvgl_port` helper functions
+
+### Step 5: Rebuild
+```bash
+idf.py build flash monitor
 ```
 
 ## Configuration
