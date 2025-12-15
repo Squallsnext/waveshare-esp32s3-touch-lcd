@@ -1,16 +1,11 @@
-version: "1.0.0"
-description: "Waveshare ESP32-S3 Touch LCD 4.3\" - ESP-IDF CMake Project with LVGL, Touch, and Backlight"
+version: "1.0.1"
+description: "Waveshare ESP32-S3 Touch LCD 4.3\" (4.3/4.3B/4.3C) - ESP-IDF + EEZ Studio UI"
 
 dependencies:
   idf: ">=5.1"
-  # LVGL 9.4.x
-  espressif/lvgl: "^9.4"
-  # LVGL port for ESP-IDF
-  espressif/esp_lvgl_port: "^1.3"
-  # LCD RGB panel driver (built-in, but explicitly listed for clarity)
-  # Touch driver - GT911 for I2C
+  lvgl/lvgl: "9.4"
+  espressif/esp_lvgl_port: "^2.5"
   espressif/esp_lcd_touch_gt911: "^1.0"
-  # IO Expander - CH422G for backlight and touch reset
   espressif/esp32_io_expander: "^0.2"
 
-component_version: "1.0.0"
+component_version: "1.0.1"
