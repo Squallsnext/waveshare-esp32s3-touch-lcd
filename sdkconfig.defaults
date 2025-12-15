@@ -3,6 +3,9 @@
 # Adjust as needed. The entries below are suggestions and include TODO markers
 # where manual verification may be required.
 
+# --- Target SoC ---
+CONFIG_IDF_TARGET="esp32s3"
+
 # --- PSRAM (SPIRAM) / OPI 8MB ---
 # Enable external PSRAM (SPIRAM) support
 CONFIG_SPIRAM_SUPPORT=y

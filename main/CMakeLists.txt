@@ -5,7 +5,10 @@ set(MAIN_SRCS
     board_init.c
 )
 
-list(APPEND ALL_SRCS ${MAIN_SRCS} ${UI_SRCS})
+# Note: UI sources (ui/*.c) are collected above but not added to build
+# until EEZ-generated sources are available and LVGL components are pinned.
+# For now, only the core board code is built.
+set(ALL_SRCS ${MAIN_SRCS})
 
 idf_component_register(
     SRCS ${ALL_SRCS}
@@ -15,9 +18,5 @@ idf_component_register(
         esp_timer
         freertos
         log
-        lvgl
-        esp_lvgl_port
-        esp_lcd
-        esp_lcd_rgb_panel
-        esp_lcd_touch_gt911
+        eez_ui
 )
