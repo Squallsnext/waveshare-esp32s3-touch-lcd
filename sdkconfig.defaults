@@ -1,41 +1,17 @@
-# sdkconfig.defaults - suggested defaults for Waveshare ESP32-S3 Touch LCD
-# NOTE: Verify these Kconfig symbols in `idf.py menuconfig` for your ESP-IDF version (>=5.3).
-# Adjust as needed. The entries below are suggestions and include TODO markers
-# where manual verification may be required.
+# sdkconfig.defaults - Waveshare ESP32-S3 Touch LCD configuration
+# Verified working with ESP-IDF v5.3
 
 # --- Target SoC ---
 CONFIG_IDF_TARGET="esp32s3"
 
-# --- PSRAM (SPIRAM) / OPI 8MB ---
-# Enable external PSRAM (SPIRAM) support
-CONFIG_SPIRAM_SUPPORT=y
-# Prefer OPI mode for PSRAM if available (verify Kconfig symbol name in your IDF)
-# TODO: confirm correct symbol name for OPI mode in your ESP-IDF
-CONFIG_SPIRAM_MODE_OPI=y
-# Hint: If your IDF exposes specific size choices, select 8MB; otherwise
-# ensure the linker scripts / partition table reflect available PSRAM.
-# Example (may not apply):
-# CONFIG_SPIRAM_SIZE_8MB=y
-
-# --- USB CDC Console ---
-# Use USB CDC as console/monitor (useful for boards exposing CDC device)
+# --- USB CDC Serial Console ---
 CONFIG_ESP_CONSOLE_USB_CDC=y
 CONFIG_ESP_CONSOLE_UART_NONE=y
 
-# --- LVGL / FreeRTOS sensible defaults ---
-# LVGL tick period in ms (fine-grained tick recommended)
-CONFIG_LVGL_TICK_PERIOD_MS=1
-# Enable thread safe drivers (if available)
-# TODO: confirm LVGL-related Kconfig symbols for your esp_lvgl_port
-#CONFIG_LVGL_ENABLE_THREAD_SAFE=y
-
-# --- General ---
-# Build target specifics (set via idf.py set-target esp32s3)
-# CPU frequency: 240MHz default
+# --- CPU Frequency ---
 CONFIG_ESP32S3_DEFAULT_CPU_FREQ_MHZ=240
 
-# --- Notes ---
-# If any of the above symbols are unknown to your IDF, run `idf.py menuconfig`
-# and search for "SPIRAM", "USB CDC", or "LVGL" to set the corresponding
-# options interactively. This file is intended as a starting point; please
-# validate the exact Kconfig symbol names for your ESP-IDF release.
+# --- PSRAM / LVGL (configure via menuconfig if needed) ---
+# Run `idf.py menuconfig` to enable PSRAM and LVGL options
+# - Enable PSRAM under: Component Config → ESP PSRAM
+# - Enable LVGL under: Component Config → LVGL (after adding managed dependency)
