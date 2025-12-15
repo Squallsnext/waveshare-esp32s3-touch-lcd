@@ -100,4 +100,8 @@
 #define LCD_PCLK_GPIO   7
 /** @} */
 
-#endif // BOARD_CONFIG_H
+/*
+ * NOTE: This file uses `#pragma once` at the top. The trailing include
+ * guard `#endif` was removed to avoid mismatch. If you prefer classic
+ * include guards, replace `#pragma once` with proper `#ifndef`/`#define`/`#endif`.
+ */

@@ -1,49 +1,38 @@
-# Waveshare ESP32-S3 Touch LCD 4.3" - Default SDK Configuration
+# sdkconfig.defaults - suggested defaults for Waveshare ESP32-S3 Touch LCD
+# NOTE: Verify these Kconfig symbols in `idf.py menuconfig` for your ESP-IDF version (>=5.3).
+# Adjust as needed. The entries below are suggestions and include TODO markers
+# where manual verification may be required.
 
-# Target
-CONFIG_IDF_TARGET="esp32s3"
+# --- PSRAM (SPIRAM) / OPI 8MB ---
+# Enable external PSRAM (SPIRAM) support
+CONFIG_SPIRAM_SUPPORT=y
+# Prefer OPI mode for PSRAM if available (verify Kconfig symbol name in your IDF)
+# TODO: confirm correct symbol name for OPI mode in your ESP-IDF
+CONFIG_SPIRAM_MODE_OPI=y
+# Hint: If your IDF exposes specific size choices, select 8MB; otherwise
+# ensure the linker scripts / partition table reflect available PSRAM.
+# Example (may not apply):
+# CONFIG_SPIRAM_SIZE_8MB=y
 
-# Chip
-CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240=y
-CONFIG_ESP32S3_PSRAM_MODE_OPI=y
-CONFIG_SPIRAM=y
-CONFIG_SPIRAM_MODE_OCT=y
-CONFIG_SPIRAM_SPEED_80M=y
-CONFIG_SPIRAM_OCCUPY_SPI0_PIN=y
-
-# Flash
-CONFIG_SPI_FLASH_MODE_DIO=y
-CONFIG_SPI_FLASH_FREQ_80M=y
-
-# PSRAM
-CONFIG_SPIRAM_CACHE_WORKAROUND=y
-CONFIG_SPIRAM_MALLOC_ALWAYSINTERNAL=16384
-CONFIG_SPIRAM_MALLOC_RESERVE_INTERNAL=0
-
-# Rodata in PSRAM
-CONFIG_ESP_SYSTEM_ALLOW_RTC_FAST_MEM_AS_HEAP=y
-
-# FreeRTOS
-CONFIG_FREERTOS_HZ=1000
-
-# LVGL
-CONFIG_LV_CONF_MINIMAL=n
-CONFIG_LV_CONF_PATH="lv_conf.h"
-
-# Logging
-CONFIG_LOG_DEFAULT_LEVEL_INFO=y
-CONFIG_LOG_DEFAULT_LEVEL=3
-
-# USB CDC
+# --- USB CDC Console ---
+# Use USB CDC as console/monitor (useful for boards exposing CDC device)
 CONFIG_ESP_CONSOLE_USB_CDC=y
-CONFIG_ESP_CONSOLE_SECONDARY_NONE=y
+CONFIG_ESP_CONSOLE_UART_NONE=y
 
-# Compiler
-CONFIG_COMPILER_OPTIMIZATION_DEFAULT=y
+# --- LVGL / FreeRTOS sensible defaults ---
+# LVGL tick period in ms (fine-grained tick recommended)
+CONFIG_LVGL_TICK_PERIOD_MS=1
+# Enable thread safe drivers (if available)
+# TODO: confirm LVGL-related Kconfig symbols for your esp_lvgl_port
+#CONFIG_LVGL_ENABLE_THREAD_SAFE=y
 
-# LWIP/Networking (disabled to save space if not needed)
-CONFIG_LWIP_MAX_SOCKETS=10
+# --- General ---
+# Build target specifics (set via idf.py set-target esp32s3)
+# CPU frequency: 240MHz default
+CONFIG_ESP32S3_DEFAULT_CPU_FREQ_MHZ=240
 
-# Bluetooth disabled by default
-CONFIG_BT_ENABLED=n
-CONFIG_WIFI_ENABLED=n
+# --- Notes ---
+# If any of the above symbols are unknown to your IDF, run `idf.py menuconfig`
+# and search for "SPIRAM", "USB CDC", or "LVGL" to set the corresponding
+# options interactively. This file is intended as a starting point; please
+# validate the exact Kconfig symbol names for your ESP-IDF release.
